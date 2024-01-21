@@ -38,7 +38,7 @@ The button will follow the provider data supplier i.e. the publisher data for th
 Again, those who wants to use color changing button only they will provide the color changing data supplier 
 
 ```swift
-CustomButton()
+CustomButton("Multicolor button")
     .colorChangingButton(colorChangingPublisher)
 ```
 

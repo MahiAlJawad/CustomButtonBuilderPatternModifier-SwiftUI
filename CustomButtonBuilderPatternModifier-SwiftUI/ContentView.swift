@@ -18,7 +18,7 @@ struct CustomButton: View {
     private var colorChangePublisher: AnyPublisher<Color?, Never> = .init(Just(nil)) // As initial color is .blue
     
     
-    init(_ text: String) {
+    init(_ text: String = "") {
         self.title = text
     }
     
