@@ -59,6 +59,7 @@ struct CustomButton: View {
 
 struct ContentView: View {
     var body: some View {
+        /*
         // MARK: Color changing button publisher setup
         let colorChangingSubject = PassthroughSubject<Color?, Never>()
         // Sending random colors in every 1 sedond using subject
@@ -69,7 +70,9 @@ struct ContentView: View {
                 colorChangingSubject.send(randomColor)
             }
         }
+        */
         
+        /*
         // MARK: Title changing button publisher setup
         let titleChangingSubject = PassthroughSubject<String?, Never>()
         
@@ -83,10 +86,10 @@ struct ContentView: View {
             }
             flag.toggle()
         }
-        
+        */
         return CustomButton("Custom Button")
             //.colorChangingButton(colorChangingSubject.eraseToAnyPublisher())
-            .titleChangingButton(titleChangingSubject.eraseToAnyPublisher())
+            //.titleChangingButton(titleChangingSubject.eraseToAnyPublisher())
             
     }
     
