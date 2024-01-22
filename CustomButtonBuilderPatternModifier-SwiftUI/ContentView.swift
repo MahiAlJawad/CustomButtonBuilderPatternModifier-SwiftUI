@@ -59,23 +59,43 @@ struct CustomButton: View {
 
 struct ContentView: View {
     var body: some View {
-        /*
-        // MARK: Color changing button publisher setup
-        let colorChangingSubject = PassthroughSubject<Color?, Never>()
-        // Sending random colors in every 1 sedond using subject
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            withAnimation { // Just to animate the color change
-                let randomColor = getRandomColor()
-                // Sending random colors to the subject in every 1 second
-                colorChangingSubject.send(randomColor)
-            }
+        // Setting up title and color changing datasource i.e. the subjects
+        // `titleChangingSubject` and `colorChangingSubject` so that
+        // they emit color and title changing data through their publisher
+        setupTitleChangingButtonDatasource()
+        setupColorChangingButtonDatasource()
+        
+        return VStack {
+            // Only title changing button usage using CustomButton view
+            CustomButton()
+                .titleChangingButton(titleChangingSubject.eraseToAnyPublisher())
+            Text("Title changing button")
+            Divider()
+            
+            // Only color changing button usage using CustomButton view
+            CustomButton("Custom Button")
+                .colorChangingButton(colorChangingSubject.eraseToAnyPublisher())
+            Text("Color changing button")
+            Divider()
+            
+            // Normal plain button usage using CustomButton view
+            CustomButton("Plain Button")
+            Text("Plain button")
+            Divider()
+            
+            // Both color and title changing button usage using CustomButton view through modifier chaining
+            CustomButton()
+                .titleChangingButton(titleChangingSubject.eraseToAnyPublisher())
+                .colorChangingButton(colorChangingSubject.eraseToAnyPublisher())
+            Text("Title and color changing button")
         }
-        */
-        
-        /*
-        // MARK: Title changing button publisher setup
-        let titleChangingSubject = PassthroughSubject<String?, Never>()
-        
+    }
+    
+    // MARK: Title changing button datasource setup
+    
+    let titleChangingSubject = PassthroughSubject<String?, Never>()
+    
+    private func setupTitleChangingButtonDatasource() {
         // Sending changed title in every 1 seconds using subject
         var flag = false
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
@@ -86,11 +106,21 @@ struct ContentView: View {
             }
             flag.toggle()
         }
-        */
-        return CustomButton("Custom Button")
-            //.colorChangingButton(colorChangingSubject.eraseToAnyPublisher())
-            //.titleChangingButton(titleChangingSubject.eraseToAnyPublisher())
-            
+    }
+    
+    // MARK: Color changing button datasource setup
+    
+    let colorChangingSubject = PassthroughSubject<Color?, Never>()
+    
+    private func setupColorChangingButtonDatasource() {
+        // Sending random colors in every 1 sedond using subject
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            withAnimation { // Just to animate the color change
+                let randomColor = getRandomColor()
+                // Sending random colors to the subject in every 1 second
+                colorChangingSubject.send(randomColor)
+            }
+        }
     }
     
     func getRandomColor() -> Color {
