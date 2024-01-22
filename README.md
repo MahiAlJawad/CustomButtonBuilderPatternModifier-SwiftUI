@@ -3,18 +3,18 @@
 Suppose, you need to make a multipurpose SwiftUI Custom button. 
 
 Purposes: 
-1. Your view can show dynamic title based on data you supply
-2. Your view can show multiple colors i.e. changing color based on data you supply
-3. Your view can show only plain button without feature 1 or 2
+1. Your view can show dynamic titles based on data you supply
+2. Your view can show multiple colors i.e. changing color based on the data you supply
+3. Your view can show only plain buttons without features 1 or 2
+4. Your view can show both title-changing and color-changing buttons by chaining both modifiers
 
-### Purpose 1: 
-https://github.com/MahiAlJawad/CustomButtonBuilderPatternModifier-SwiftUI/assets/30589979/7dfcb3e1-eafd-494e-b8d0-e5ce6bc27515
+## Output
 
-### Purpose 2: 
-https://github.com/MahiAlJawad/CustomButtonBuilderPatternModifier-SwiftUI/assets/30589979/cddebbd4-3a5a-4c7a-9cc3-0915a62a709e
+Showing all 4 types of button output for more clarification of the requirement/purpose:
 
-### Purpose 3:
-<img src="https://github.com/MahiAlJawad/CustomButtonBuilderPatternModifier-SwiftUI/assets/30589979/b22aa244-dc4f-44da-a586-1f556b37ea5f" width="300" height="600" />
+https://github.com/MahiAlJawad/CustomButtonBuilderPatternModifier-SwiftUI/assets/30589979/18b860f5-8411-4a58-ba92-7a211241cd12
+
+## Usage
 
 Now some developers may use the purpose 1 only, some may use 2 only and some others may use the type 3 only.
 
@@ -35,7 +35,7 @@ The button will follow the provider data supplier i.e. the publisher data for th
 
 > In this case the view will not ask for any other color-changing properties as this view does not need color-changing
 
-Again, those who wants to use color changing button only they will provide the color changing data supplier 
+Again, those who want to use color changing button only they will provide the color-changing data supplier 
 
 ```swift
 CustomButton("Multicolor button")
@@ -52,5 +52,5 @@ CustomButton()
     .colorChangingButton(colorChangingPublisher)
 ```
 
-Benefit of such implement is:
-> You don't need to supply all the properties as argument during view initialization, you only need to supply what you need. SwiftUI primitive views also follow this approach called chaining. When you use `Text("")` they don't ask for `font` or other properties during initialization.
+The benefit of such implementation is:
+> You don't need to supply all the properties as arguments during view initialization, you only need to supply what you need. SwiftUI primitive views also follow this approach called chaining. When you use `Text("")` they don't ask for `font` or other properties during initialization.
