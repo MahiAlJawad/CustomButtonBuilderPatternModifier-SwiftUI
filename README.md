@@ -54,3 +54,79 @@ CustomButton()
 
 The benefit of such implementation is:
 > You don't need to supply all the properties as arguments during view initialization, you only need to supply what you need. SwiftUI primitive views also follow this approach called chaining. When you use `Text("")` they don't ask for `font` or other properties during initialization.
+
+## CustomButton() implementation
+
+```swift
+struct CustomButton: View {
+    // MARK: Text changing properties
+    @State private var title: String
+    private var titleChangePublisher: AnyPublisher<String?, Never> = .init(Just(nil))
+    
+    // MARK: Color changing properties
+    @State private var color: Color = .blue
+    private var colorChangePublisher: AnyPublisher<Color?, Never> = .init(Just(nil)) // As initial color is .blue
+    
+    
+    init(_ text: String = "") {
+        self.title = text
+    }
+    
+    var buttonView: some View {
+        Text(title)
+            .font(.title2)
+            .foregroundStyle(.white)
+            .padding()
+            .frame(width: 180, height: 70)
+            .background(color)
+            .clipShape(.rect(cornerRadius: 8.0))
+    }
+    
+    var body: some View {
+        Button(action: { print("No action") }, label: {
+            buttonView
+                .onReceive(colorChangePublisher, perform: { color in
+                    guard let color else { return }
+                    self.color = color
+                })
+                .onReceive(titleChangePublisher, perform: { title in
+                    guard let title else { return }
+                    self.title = title
+                })
+        })
+        
+    }
+    
+    func colorChangingButton(_ publisher: AnyPublisher<Color?, Never>) -> Self {
+        var view = self
+        view.colorChangePublisher = publisher
+        return view
+    }
+    
+    func titleChangingButton(_ publisher: AnyPublisher<String?, Never>) -> Self {
+        var view = self
+        view.titleChangePublisher = publisher
+        return view
+    }
+}
+```
+
+It's easy to understand the `buttonView` SwiftUI implementation. 
+
+Let's explain the approach of making custom modifiers to update the state of the class object.
+To make the title change modifier which will update the `title` property we need a publisher which is `titleChangePublisher`.
+We inject the publisher with the custom modifier as follows: 
+
+```swift
+    func titleChangingButton(_ publisher: AnyPublisher<String?, Never>) -> Self {
+        var view = self // Old values of the view is copied in a new object
+        view.titleChangePublisher = publisher // Updating the publisher with the new publisher
+        return view // Returning the view
+    }
+```
+
+In usage when we use `CustomView().titleChangingButton(<Publisher>)` the we have to pass a publisher which updates the title accordingly.
+
+A similar way we update the color changing. This approach is known as **Builder Pattern**.
+
+Check out the full implementation in the [ContentView.swift](https://github.com/MahiAlJawad/CustomButtonBuilderPatternModifier-SwiftUI/blob/main/CustomButtonBuilderPatternModifier-SwiftUI/ContentView.swift) file.
