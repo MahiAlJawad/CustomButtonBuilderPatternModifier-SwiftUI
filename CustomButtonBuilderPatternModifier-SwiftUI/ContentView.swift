@@ -22,15 +22,19 @@ struct CustomButton: View {
         self.title = text
     }
     
+    var buttonView: some View {
+        Text(title)
+            .font(.title2)
+            .foregroundStyle(.white)
+            .padding()
+            .frame(width: 180, height: 70)
+            .background(color)
+            .clipShape(.rect(cornerRadius: 8.0))
+    }
+    
     var body: some View {
         Button(action: { print("No action") }, label: {
-            Text(title)
-                .font(.title2)
-                .foregroundStyle(.white)
-                .padding()
-                .frame(width: 180, height: 70)
-                .background(color)
-                .clipShape(.rect(cornerRadius: 8.0))
+            buttonView
                 .onReceive(colorChangePublisher, perform: { color in
                     guard let color else { return }
                     self.color = color
